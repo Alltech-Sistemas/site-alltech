@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alltech Sistemas – Tecnologia que Transforma Negócios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* ── TOKENS ── */
+:root{
+  --blue:#1B5FBF;--blue-dark:#0E3F8A;--blue-light:#2B7BEF;
+  --al:#EBF2FC;--bl:rgba(27,95,191,.18);
+  --bg:#F4F7FC;--bg2:#fff;--bg3:#EEF3FA;
+  --tx:#0F1C2E;--tx2:#374760;--tx3:#6B7A95;
+  --br:#D4DCE8;--r:12px;--rl:20px;
+}
+
+/* ── RESET ── */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;overflow-x:hidden;width:100%;}
+img{max-width:100%;display:block;}
+h1,h2,h3,h4{font-family:'Elms Sans',sans-serif;line-height:1.15;}
+a{-webkit-tap-highlight-color:transparent;}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:64px;
+  background:rgba(255,255,255,.93);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--br);
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{background:rgba(255,255,255,.98);box-shadow:0 2px 20px rgba(27,95,191,.09);}
+.nav-logo img{height:32px;object-fit:contain;display:block;}
+
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
+.nav-links a{color:var(--tx2);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;position:relative;padding-bottom:2px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:.25s;}
+.nav-links a:hover{color:var(--blue);}
+.nav-links a:hover::after{transform:scaleX(1);}
+
+.nav-cta{background:var(--blue);color:#fff;padding:.52rem 1.25rem;border-radius:8px;font-family:'Elms Sans',sans-serif;font-weight:600;font-size:.85rem;text-decoration:none;transition:all .25s;white-space:nowrap;border:2px solid var(--blue);}
+.nav-cta:hover{background:var(--blue-dark);border-color:var(--blue-dark);transform:translateY(-1px);box-shadow:0 6px 18px rgba(27,95,191,.3);}
+
+.nav-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;padding:6px;border:none;background:none;width:44px;height:44px;border-radius:8px;transition:background .2s;}
+.nav-toggle:hover{background:var(--al);}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--tx);border-radius:2px;transition:transform .35s cubic-bezier(.23,1,.32,1),opacity .25s,width .25s;transform-origin:center;}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.open span:nth-child(2){opacity:0;width:0;}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.nav-overlay{display:none;position:fixed;inset:0;z-index:998;background:rgba(15,28,46,.35);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;transition:opacity .3s;}
+.nav-overlay.open{display:block;opacity:1;}
+
+.nav-drawer{position:fixed;top:64px;left:0;right:0;z-index:999;background:#fff;border-bottom:1px solid var(--br);box-shadow:0 12px 40px rgba(15,28,46,.12);padding:0 5% 1.5rem;transform:translateY(-110%);transition:transform .38s cubic-bezier(.23,1,.32,1);pointer-events:none;}
+.nav-drawer.open{transform:translateY(0);pointer-events:auto;}
+
+.nav-drawer ul{list-style:none;padding:0;margin:0;}
+.nav-drawer ul li{border-bottom:1px solid var(--br);}
+.nav-drawer ul li:last-child{border-bottom:none;}
+.nav-drawer ul li a{display:flex;align-items:center;gap:10px;padding:16px 0;color:var(--tx);text-decoration:none;font-size:1rem;font-weight:500;transition:color .2s;}
+.nav-drawer ul li a i{color:var(--blue);width:18px;text-align:center;font-size:.9rem;}
+.nav-drawer ul li a:hover{color:var(--blue);}
+
+.nav-drawer-cta{margin-top:1.2rem;background:var(--blue);color:#fff;text-align:center;padding:1rem;border-radius:12px;font-family:'Elms Sans',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;transition:background .25s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.nav-drawer-cta:hover{background:var(--blue-dark);}
+
+.nav-drawer-contacts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.85rem;}
+.nav-drawer-contact{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--br);border-radius:8px;padding:.5rem .85rem;color:var(--tx2);text-decoration:none;font-size:.82rem;font-weight:500;transition:border-color .2s,color .2s;flex:1;min-width:140px;}
+.nav-drawer-contact i{color:var(--blue);font-size:.85rem;}
+.nav-drawer-contact:hover{border-color:var(--blue);color:var(--blue);}
+
+@media(max-width:959px){
+  .nav-links,.nav-cta{display:none;}
+  .nav-toggle{display:flex;}
+}
+
+/* ── HERO ── */
+#hero{
+  min-height:100svh;display:flex;align-items:center;
+  padding:90px 4% 60px;background:var(--bg2);
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(27,95,191,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(27,95,191,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(27,95,191,.04) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;
+}
+.hero-content{position:relative;width:100%;max-width:680px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--al);border:1px solid var(--bl);
+  color:var(--blue);font-size:.72rem;font-weight:600;letter-spacing:.07em;
+  padding:.38rem .9rem;border-radius:50px;margin-bottom:1.4rem;text-transform:uppercase;
+}
+h1.hero-title{
+  font-size:clamp(2rem,8vw,4rem);
+  font-weight:800;color:var(--tx);
+  margin-bottom:1.2rem;letter-spacing:-.02em;
+}
+.highlight{color:var(--blue);}
+.hero-sub{font-size:clamp(.95rem,3.5vw,1.1rem);color:var(--tx2);margin-bottom:2rem;font-weight:300;max-width:540px;}
+.hero-btns{display:flex;flex-direction:column;gap:.85rem;width:100%;}
+.btn-primary{
+  background:var(--blue);color:#fff;
+  padding:1rem 1.8rem;border-radius:var(--r);
+  font-family:'Elms Sans',sans-serif;font-weight:700;font-size:.95rem;
+  text-decoration:none;transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;
+}
+.btn-primary:hover{background:var(--blue-dark);box-shadow:0 8px 24px rgba(27,95,191,.35);}
+.btn-secondary{
+  background:transparent;color:var(--tx);
+  padding:1rem 1.8rem;border-radius:var(--r);
+  font-family:'Elms Sans',sans-serif;font-weight:600;font-size:.95rem;
+  text-decoration:none;border:1.5px solid var(--br);
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;
+}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+.hero-stats{
+  display:flex;gap:0;margin-top:2.5rem;
+  background:var(--bg);border:1px solid var(--br);
+  border-radius:var(--r);overflow:hidden;
+}
+.stat-item{
+  flex:1;padding:1rem .5rem;text-align:center;
+  border-right:1px solid var(--br);
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Elms Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tx);line-height:1;}
+.stat-num span{color:var(--blue);}
+.stat-label{font-size:.65rem;color:var(--tx3);letter-spacing:.04em;text-transform:uppercase;margin-top:4px;line-height:1.3;}
+
+/* ── SECTIONS ── */
+section{padding:64px 4%;}
+.section-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--blue);font-size:.75rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:.85rem;
+}
+.section-tag::before{content:'';display:block;width:18px;height:2px;background:var(--blue);}
+.section-title{font-size:clamp(1.6rem,6vw,2.8rem);font-weight:800;color:var(--tx);margin-bottom:1rem;letter-spacing:-.02em;}
+.section-title span{color:var(--blue);}
+.section-sub{color:var(--tx2);font-size:clamp(.92rem,3.5vw,1.05rem);font-weight:300;max-width:600px;}
+.section-center{text-align:center;}
+.section-center .section-tag{justify-content:center;}
+.section-center .section-sub{margin:0 auto;}
+
+/* ── PROBLEMS ── */
+#problems{background:var(--bg);}
+.problems-grid{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.problem-card{
+  background:var(--bg2);border:1px solid var(--br);
+  border-radius:var(--rl);padding:1.4rem;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.problem-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));
+  opacity:0;transition:.3s;
+}
+.problem-card:hover::before{opacity:1;}
+.problem-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--al);border:1px solid var(--bl);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:1rem;margin-bottom:1rem;
+}
+.problem-card h3{font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:.4rem;}
+.problem-card p{font-size:.88rem;color:var(--tx2);line-height:1.6;}
+
+/* ── ABOUT ── */
+#about{background:var(--bg3);}
+.about-card-main{
+  background:var(--bg2);border:1px solid var(--br);
+  border-radius:var(--rl);padding:1.5rem;
+  box-shadow:0 4px 20px rgba(27,95,191,.07);
+  margin-bottom:2rem;
+}
+.about-badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.2rem;}
+.about-badge{background:var(--al);border:1px solid var(--bl);border-radius:var(--r);padding:.85rem .5rem;text-align:center;}
+.about-badge-num{font-family:'Elms Sans',sans-serif;font-size:1.4rem;font-weight:800;color:var(--blue);}
+.about-badge-label{font-size:.7rem;color:var(--tx3);margin-top:2px;}
+.about-list{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-top:1.2rem;}
+.about-list li{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--tx2);}
+.about-list li i{color:var(--blue);margin-top:4px;flex-shrink:0;font-size:.85rem;}
+.about-btn{margin-top:1.5rem;}
+
+/* ── SERVICES ── */
+#services{background:var(--bg2);}
+.services-grid{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.service-card{
+  background:var(--bg);border:1px solid var(--br);
+  border-radius:var(--rl);padding:1.5rem;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.service-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--blue-light));
+  transform:scaleX(0);transform-origin:left;transition:.35s;
+}
+.service-card:hover::after{transform:scaleX(1);}
+.service-icon{
+  width:52px;height:52px;border-radius:12px;
+  background:var(--al);border:1px solid var(--bl);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:1.2rem;margin-bottom:1.2rem;
+}
+.service-card h3{font-size:1rem;font-weight:700;color:var(--tx);margin-bottom:.6rem;}
+.service-card p{font-size:.88rem;color:var(--tx2);line-height:1.6;}
+.service-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;}
+.stag{background:var(--al);border:1px solid var(--bl);color:var(--blue);font-size:.68rem;font-weight:600;letter-spacing:.04em;padding:.22rem .6rem;border-radius:50px;text-transform:uppercase;}
+
+/* ── BENEFITS ── */
+#benefits{background:var(--bg);}
+.benefits-list{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.benefit-item{
+  display:flex;gap:1rem;
+  background:var(--bg2);border:1px solid var(--br);
+  border-radius:var(--r);padding:1.1rem 1.2rem;
+}
+.benefit-icon{
+  width:42px;height:42px;flex-shrink:0;border-radius:9px;
+  background:var(--al);border:1px solid var(--bl);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:.95rem;
+}
+.benefit-text h4{font-size:.92rem;font-weight:700;color:var(--tx);margin-bottom:.25rem;}
+.benefit-text p{font-size:.83rem;color:var(--tx2);line-height:1.55;}
+.benefits-quote{
+  background:var(--blue);border-radius:var(--rl);
+  padding:1.8rem 1.5rem;margin-top:1.5rem;
+}
+.big-quote{
+  font-family:'Elms Sans',sans-serif;
+  font-size:clamp(1.15rem,4.5vw,1.7rem);
+  font-weight:700;color:#fff;line-height:1.3;margin-bottom:1.2rem;
+}
+.big-quote em{color:rgba(255,255,255,.7);font-style:normal;}
+
+/* ── HOW ── */
+#how{background:var(--bg3);}
+.steps-grid{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.step{
+  background:var(--bg2);border:1px solid var(--br);
+  border-radius:var(--r);padding:1.3rem 1.5rem;
+  display:flex;align-items:flex-start;gap:1.2rem;
+}
+.step-num{
+  width:48px;height:48px;flex-shrink:0;border-radius:50%;
+  background:var(--al);border:2px solid var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Elms Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--blue);
+}
+.step-text h4{font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;}
+.step-text p{font-size:.85rem;color:var(--tx2);line-height:1.6;}
+
+/* ── DIFERENCIAIS ── */
+#diferenciais{background:var(--bg2);}
+.diff-grid{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem;}
+.diff-item{
+  display:flex;align-items:flex-start;gap:.9rem;
+  padding:1.1rem 1.2rem;border-radius:var(--r);
+  border:1px solid var(--br);background:var(--bg);
+}
+.diff-dot{width:9px;height:9px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:7px;}
+.diff-item p{font-size:.88rem;color:var(--tx2);line-height:1.55;}
+.diff-item strong{color:var(--tx);font-weight:600;}
+
+/* ── CASES ── */
+#cases{background:var(--bg3);}
+.cases-grid{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.case-card{
+  background:var(--bg2);border:1px solid var(--br);
+  border-radius:var(--rl);padding:1.5rem;
+  position:relative;overflow:hidden;
+}
+.case-card::before{content:'';position:absolute;top:0;left:0;width:4px;bottom:0;background:linear-gradient(180deg,var(--blue-dark),var(--blue-light));}
+.case-client{font-family:'Elms Sans',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:.7rem;}
+.case-card p{font-size:.86rem;color:var(--tx2);line-height:1.65;}
+.case-tag{display:inline-block;margin-top:.85rem;background:var(--al);border:1px solid var(--bl);color:var(--blue);font-size:.68rem;font-weight:600;letter-spacing:.05em;padding:.22rem .7rem;border-radius:50px;text-transform:uppercase;}
+
+/* ── CTA ── */
+#cta{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 60%,var(--blue-light) 100%);
+  position:relative;overflow:hidden;text-align:center;
+}
+#cta::before{content:'';position:absolute;top:-60%;left:-20%;width:140%;height:220%;background:radial-gradient(ellipse 55% 55% at 50% 50%,rgba(255,255,255,.06),transparent 70%);pointer-events:none;}
+.cta-content{position:relative;}
+.cta-title{font-size:clamp(1.7rem,6vw,3rem);font-weight:800;color:#fff;margin-bottom:1rem;}
+.cta-title span{color:rgba(255,255,255,.7);}
+.cta-sub{font-size:clamp(.9rem,3.5vw,1.05rem);color:rgba(255,255,255,.78);margin-bottom:2rem;font-weight:300;}
+.cta-btns{display:flex;flex-direction:column;gap:.85rem;}
+.btn-white{
+  background:#fff;color:var(--blue);
+  padding:1rem 1.8rem;border-radius:var(--r);
+  font-family:'Elms Sans',sans-serif;font-weight:700;font-size:.95rem;
+  text-decoration:none;transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;
+}
+.btn-white:hover{background:var(--al);}
+.btn-outline-white{
+  background:transparent;color:#fff;
+  padding:1rem 1.8rem;border-radius:var(--r);
+  font-family:'Elms Sans',sans-serif;font-weight:600;font-size:.95rem;
+  text-decoration:none;border:1.5px solid rgba(255,255,255,.5);
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;
+}
+.btn-outline-white:hover{border-color:#fff;background:rgba(255,255,255,.1);}
+.cta-contacts{display:flex;flex-direction:column;gap:.9rem;margin-top:2rem;align-items:center;}
+.cta-contact-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.8);font-size:.9rem;text-decoration:none;min-height:44px;}
+.cta-contact-item:hover{color:#fff;}
+.cta-contact-item i{color:rgba(255,255,255,.55);width:16px;}
+
+/* ── FAQ ── */
+#faq{background:var(--bg);}
+.faq-list{display:flex;flex-direction:column;gap:.7rem;margin-top:2rem;}
+.faq-item{background:var(--bg2);border:1px solid var(--br);border-radius:var(--r);overflow:hidden;}
+.faq-question{
+  width:100%;background:none;border:none;color:var(--tx);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 1.3rem;cursor:pointer;text-align:left;
+  font-family:'Elms Sans',sans-serif;font-size:.9rem;font-weight:600;
+  gap:1rem;min-height:52px;
+}
+.faq-question i{color:var(--blue);flex-shrink:0;transition:.3s;font-size:.85rem;}
+.faq-question.open i{transform:rotate(45deg);}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-answer-inner{padding:0 1.3rem 1.2rem;font-size:.87rem;color:var(--tx2);line-height:1.7;}
+.faq-item.open .faq-answer{max-height:300px;}
+
+/* ── FOOTER ── */
+footer{background:var(--tx);padding:2.5rem 4% 1.5rem;}
+.footer-brand img{height:50px;margin-bottom:.85rem;filter:brightness(1.2);}
+.footer-brand p{font-size:.85rem;color:rgba(255,255,255,.38);line-height:1.65;margin-bottom:2rem;}
+.footer-col{margin-bottom:1.5rem;}
+.footer-col h5{font-family:'Elms Sans',sans-serif;font-size:.78rem;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:.75rem;letter-spacing:.1em;text-transform:uppercase;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.footer-col ul li a{color:rgba(255,255,255,.58);font-size:.86rem;text-decoration:none;}
+.footer-col ul li{color:rgba(255,255,255,.5);font-size:.86rem;}
+.footer-col ul li i{color:rgba(43,123,239,.9);margin-right:8px;width:14px;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.3rem;display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center;}
+.footer-bottom p{font-size:.78rem;color:rgba(255,255,255,.28);}
+.social-links{display:flex;gap:.7rem;}
+.social-links a{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);text-decoration:none;font-size:.9rem;transition:.25s;}
+.social-links a:hover{background:var(--blue);border-color:var(--blue);color:#fff;}
+
+/* ── WHATSAPP ── */
+.whatsapp-float{
+  position:fixed;bottom:20px;right:20px;z-index:999;
+  width:56px;height:56px;border-radius:50%;background:#25D366;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:1.5rem;text-decoration:none;
+  box-shadow:0 6px 24px rgba(37,211,102,.4);
+  transition:all .3s;animation:pulse-wa 2.5s ease-in-out infinite;
+}
+.whatsapp-float:hover{transform:scale(1.1);}
+@keyframes pulse-wa{
+  0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4);}
+  50%{box-shadow:0 6px 36px rgba(37,211,102,.6),0 0 0 8px rgba(37,211,102,.1);}
+}
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-up{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.reveal-up.visible{opacity:1;transform:translateY(0);}
+
+/* ══════════════════════════════════════════
+   TABLET  ≥ 600px
+══════════════════════════════════════════ */
+@media(min-width:600px){
+  nav{height:68px;padding:0 5%;}
+  .nav-logo img{height:34px;}
+  #hero{padding:100px 5% 70px;}
+  section{padding:72px 5%;}
+  .hero-btns{flex-direction:row;width:auto;}
+  .btn-primary,.btn-secondary{min-height:48px;padding:.85rem 1.8rem;}
+  .problems-grid{grid-template-columns:1fr 1fr;display:grid;}
+  .services-grid{grid-template-columns:1fr 1fr;display:grid;}
+  .steps-grid{flex-direction:row;flex-wrap:wrap;}
+  .step{flex:1 1 calc(50% - .5rem);}
+  .diff-grid{grid-template-columns:1fr 1fr;display:grid;}
+  .cases-grid{grid-template-columns:1fr 1fr;display:grid;}
+  .cta-btns{flex-direction:row;justify-content:center;}
+  .btn-white,.btn-outline-white{min-height:48px;padding:.85rem 1.8rem;}
+  .cta-contacts{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1.5rem;}
+  .footer-grid-inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+}
+
+/* ══════════════════════════════════════════
+   DESKTOP  ≥ 960px
+══════════════════════════════════════════ */
+@media(min-width:960px){
+  nav{height:72px;}
+  .nav-logo img{height:50px;}
+  .nav-links{display:flex!important;}
+  .nav-toggle,.nav-menu-mobile{display:none!important;}
+  .nav-cta{display:block;}
+  #hero{padding:120px 5% 80px;min-height:100vh;}
+  section{padding:90px 5%;}
+
+  /* Hero layout */
+  .hero-inner{display:flex;align-items:center;justify-content:space-between;gap:3rem;width:100%;}
+  .hero-content{max-width:600px;flex-shrink:0;}
+  .hero-btns{flex-direction:row;}
+  .hero-visual-desktop{
+    display:flex;flex-direction:column;gap:12px;
+    flex:1;max-width:420px;pointer-events:none;
+  }
+  .card-float{background:#fff;border:1px solid var(--br);border-radius:var(--r);padding:1rem 1.3rem;box-shadow:0 4px 20px rgba(27,95,191,.08);animation:float 4s ease-in-out infinite;}
+  .card-float:nth-child(2){animation-delay:1s;margin-left:40px;}
+  .card-float:nth-child(3){animation-delay:2s;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .cfl-header{display:flex;align-items:center;gap:10px;margin-bottom:.5rem;}
+  .cfl-icon{width:34px;height:34px;border-radius:8px;background:var(--al);border:1px solid var(--bl);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:.9rem;}
+  .cfl-title{font-family:'Elms Sans',sans-serif;font-size:.85rem;font-weight:600;color:var(--tx);}
+  .cfl-sub{font-size:.75rem;color:var(--tx3);}
+  .cfl-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:.7rem;}
+  .cfl-fill{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));}
+
+  /* Stats */
+  .hero-stats{border-radius:var(--r);gap:0;}
+  .stat-num{font-size:1.8rem;}
+  .stat-label{font-size:.7rem;}
+
+  /* Problems 3-col */
+  .problems-grid{grid-template-columns:repeat(3,1fr);}
+
+  /* About 2-col */
+  .about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+  .about-card-main{margin-bottom:0;}
+  .about-btn{display:block;}
+
+  /* Services 3-col */
+  .services-grid{grid-template-columns:repeat(3,1fr);}
+
+  /* Benefits 2-col */
+  .benefits-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+  .benefits-list{margin-top:0;}
+  .benefits-quote{margin-top:0;}
+
+  /* Steps 4-col */
+  .steps-grid{flex-direction:row;flex-wrap:nowrap;gap:0;position:relative;}
+  .steps-grid::before{content:'';position:absolute;top:24px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--br),var(--br),transparent);}
+  .step{flex:1;flex-direction:column;align-items:center;text-align:center;padding:0 1.2rem 1.5rem;background:none;border:none;border-radius:0;}
+  .step-num{width:48px;height:48px;margin-bottom:1.2rem;}
+  .step-text h4,.step-text p{text-align:center;}
+
+  /* Diferenciais 2-col */
+  .diff-grid{grid-template-columns:1fr 1fr;}
+
+  /* Cases 2-col */
+  .cases-grid{grid-template-columns:repeat(2,1fr);}
+
+  /* CTA */
+  .cta-btns{gap:1rem;}
+  .cta-contacts{flex-direction:row;}
+
+  /* Footer */
+  .footer-grid-inner{grid-template-columns:2fr 1fr 1fr;gap:3rem;}
+  .footer-bottom{flex-direction:row;text-align:left;}
+}
+
+@media(min-width:1200px){
+  .cases-grid{grid-template-columns:repeat(4,1fr);}
+  .services-grid{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <div class="nav-logo"><img src="logo_horizontal.png" alt="Alltech Sistemas"/></div>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre</a></li>
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#cta">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5579991437087" target="_blank" class="nav-cta">Falar com especialista</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Overlay -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <ul>
+    <li><a href="#about" class="nav-drawer-link"><i class="fa-solid fa-building"></i>Sobre</a></li>
+    <li><a href="#services" class="nav-drawer-link"><i class="fa-solid fa-gears"></i>Serviços</a></li>
+    <li><a href="#cases" class="nav-drawer-link"><i class="fa-solid fa-chart-line"></i>Cases</a></li>
+    <li><a href="#diferenciais" class="nav-drawer-link"><i class="fa-solid fa-star"></i>Diferenciais</a></li>
+    <li><a href="#faq" class="nav-drawer-link"><i class="fa-solid fa-circle-question"></i>FAQ</a></li>
+  </ul>
+  <a href="https://wa.me/5579991437087" target="_blank" class="nav-drawer-cta">
+    <i class="fa-brands fa-whatsapp"></i> Falar pelo WhatsApp
+  </a>
+  <div class="nav-drawer-contacts">
+    <a href="tel:+557931422500" class="nav-drawer-contact"><i class="fa-solid fa-phone"></i>(79) 3142-2500</a>
+    <a href="mailto:atendimento@alltc-br.com" class="nav-drawer-contact"><i class="fa-solid fa-envelope"></i>atendimento@alltc-br.com</a>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner" style="width:100%;display:contents;">
+    <div class="hero-content reveal">
+      <div class="hero-badge"><i class="fa-solid fa-microchip"></i> Tecnologia & Inovação — Nordeste</div>
+      <h1 class="hero-title">Tecnologia que<br/><span class="highlight">transforma</span> o seu negócio</h1>
+      <p class="hero-sub">A Alltech Sistemas desenvolve soluções tecnológicas sob medida para médias empresas que querem crescer com eficiência, segurança e inovação contínua.</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/5579991437087" target="_blank" class="btn-primary"><i class="fa-brands fa-whatsapp"></i> Falar com especialista</a>
+        <a href="#services" class="btn-secondary"><i class="fa-solid fa-arrow-down"></i> Ver serviços</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">+<span>50</span></div><div class="stat-label">Projetos entregues</div></div>
+        <div class="stat-item"><div class="stat-num"><span>4</span></div><div class="stat-label">Estados atendidos</div></div>
+        <div class="stat-item"><div class="stat-num"><span>100</span>%</div><div class="stat-label">No prazo</div></div>
+      </div>
+    </div>
+    <!-- Desktop floating cards (hidden on mobile via CSS) -->
+    <div class="hero-visual-desktop" style="display:none;">
+      <div class="card-float">
+        <div class="cfl-header"><div class="cfl-icon"><i class="fa-solid fa-code"></i></div><div><div class="cfl-title">Software Sob Medida</div><div class="cfl-sub">Sistema em produção</div></div></div>
+        <div class="cfl-bar"><div class="cfl-fill" style="width:88%"></div></div>
+      </div>
+      <div class="card-float">
+        <div class="cfl-header"><div class="cfl-icon"><i class="fa-solid fa-shield-halved"></i></div><div><div class="cfl-title">Segurança da Informação</div><div class="cfl-sub">Ambiente protegido</div></div></div>
+        <div class="cfl-bar"><div class="cfl-fill" style="width:95%"></div></div>
+      </div>
+      <div class="card-float">
+        <div class="cfl-header"><div class="cfl-icon"><i class="fa-solid fa-gears"></i></div><div><div class="cfl-title">Automação de Processos</div><div class="cfl-sub">Produtividade +40%</div></div></div>
+        <div class="cfl-bar"><div class="cfl-fill" style="width:72%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEMAS ── -->
+<section id="problems">
+  <div class="section-tag">O cenário atual</div>
+  <h2 class="section-title">Sua empresa enfrenta estes <span>desafios?</span></h2>
+  <p class="section-sub" style="margin-bottom:0;">Se você se reconhece em algum deles, a Alltech tem a solução.</p>
+  <div class="problems-grid">
+    <div class="problem-card reveal"><div class="problem-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Sistemas lentos e desatualizados</h3><p>Processos manuais e ferramentas obsoletas que travam a operação e geram retrabalho constante.</p></div>
+    <div class="problem-card reveal" style="transition-delay:.08s"><div class="problem-icon"><i class="fa-solid fa-plug-circle-xmark"></i></div><h3>Falta de integração entre setores</h3><p>Dados espalhados em sistemas que não conversam, impedindo decisões rápidas e precisas.</p></div>
+    <div class="problem-card reveal" style="transition-delay:.16s"><div class="problem-icon"><i class="fa-solid fa-lock-open"></i></div><h3>Vulnerabilidades de segurança</h3><p>Infraestrutura exposta a riscos, sem backups, colocando dados críticos em perigo.</p></div>
+    <div class="problem-card reveal" style="transition-delay:.24s"><div class="problem-icon"><i class="fa-solid fa-battery-half"></i></div><h3>Baixa produtividade operacional</h3><p>Equipes sobrecarregadas com tarefas repetitivas que poderiam ser automatizadas.</p></div>
+    <div class="problem-card reveal" style="transition-delay:.32s"><div class="problem-icon"><i class="fa-solid fa-headset"></i></div><h3>Suporte de TI ineficiente</h3><p>Falhas recorrentes sem atendimento ágil, gerando paradas e prejuízos operacionais.</p></div>
+    <div class="problem-card reveal" style="transition-delay:.4s"><div class="problem-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div><h3>Crescimento sem infraestrutura</h3><p>A empresa cresce, mas a tecnologia não acompanha. Escalabilidade vira problema.</p></div>
+  </div>
+</section>
+
+<!-- ── SOBRE ── -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="reveal">
+      <div class="about-card-main">
+        <div class="section-tag">Nossa história</div>
+        <p style="color:var(--tx2);font-size:.92rem;line-height:1.7;margin-bottom:1rem;">A Alltech Sistemas nasceu da convicção de que tecnologia deve ser um motor de crescimento, não um obstáculo. Atuamos com equipe multidisciplinar em infraestrutura, desenvolvimento, suporte e transformação digital.</p>
+        <p style="color:var(--tx3);font-size:.86rem;line-height:1.65;">Atuamos em todo o Nordeste, apoiando empresas nos setores comercial, industrial, governamental e educacional.</p>
+        <div class="about-badge-grid">
+          <div class="about-badge"><div class="about-badge-num">NE</div><div class="about-badge-label">Brasil</div></div>
+          <div class="about-badge"><div class="about-badge-num">24/7</div><div class="about-badge-label">Suporte</div></div>
+          <div class="about-badge"><div class="about-badge-num">+10</div><div class="about-badge-label">Segmentos</div></div>
+          <div class="about-badge"><div class="about-badge-num">100%</div><div class="about-badge-label">Foco em resultado</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-tag">Por que a Alltech</div>
+      <h2 class="section-title">Mais do que TI: um <span>parceiro estratégico</span></h2>
+      <p class="section-sub" style="margin-bottom:1.2rem;">Não vendemos produto. Construímos soluções que fazem sentido para o seu negócio.</p>
+      <ul class="about-list">
+        <li><i class="fa-solid fa-circle-check"></i> Atendimento ágil, humanizado e sem burocracia</li>
+        <li><i class="fa-solid fa-circle-check"></i> Equipe certificada em infraestrutura, dev e segurança</li>
+        <li><i class="fa-solid fa-circle-check"></i> Soluções personalizadas para cada realidade</li>
+        <li><i class="fa-solid fa-circle-check"></i> Comprometimento total com prazos e qualidade</li>
+        <li><i class="fa-solid fa-circle-check"></i> Parceria de longo prazo, não apenas entrega</li>
+        <li><i class="fa-solid fa-circle-check"></i> Transparência e rastreabilidade em cada etapa</li>
+      </ul>
+      <div class="about-btn" style="margin-top:1.5rem;">
+        <a href="https://wa.me/5579991437087" target="_blank" class="btn-primary"><i class="fa-solid fa-comments"></i> Quero conhecer melhor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVIÇOS ── -->
+<section id="services">
+  <div class="section-center">
+    <div class="section-tag">O que fazemos</div>
+    <h2 class="section-title">Soluções que <span>movem</span> sua empresa</h2>
+    <p class="section-sub">Tecnologia de ponta com entendimento profundo do seu negócio.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-icon"><i class="fa-solid fa-code"></i></div><h3>Desenvolvimento de Software Sob Medida</h3><p>Sistemas e aplicações 100% personalizados. Performance, escalabilidade e segurança desde o primeiro commit.</p><div class="service-tags"><span class="stag">Web</span><span class="stag">Mobile</span><span class="stag">API</span></div></div>
+    <div class="service-card reveal" style="transition-delay:.08s"><div class="service-icon"><i class="fa-solid fa-server"></i></div><h3>Suporte e TI Gerenciado</h3><p>Monitoramento contínuo e suporte proativo da sua infraestrutura. Menos paradas, mais produtividade.</p><div class="service-tags"><span class="stag">Infraestrutura</span><span class="stag">Cloud</span><span class="stag">Backup</span></div></div>
+    <div class="service-card reveal" style="transition-delay:.16s"><div class="service-icon"><i class="fa-solid fa-plug"></i></div><h3>Integrações e APIs</h3><p>Conectamos seus sistemas em um ecossistema integrado e inteligente. Fim dos processos manuais.</p><div class="service-tags"><span class="stag">REST</span><span class="stag">Webhooks</span><span class="stag">ERP</span></div></div>
+    <div class="service-card reveal" style="transition-delay:.24s"><div class="service-icon"><i class="fa-solid fa-brain"></i></div><h3>Consultoria em Tecnologia</h3><p>Diagnóstico estratégico, mapeamento de gaps, riscos e oportunidades rumo à transformação digital.</p><div class="service-tags"><span class="stag">Governança</span><span class="stag">Segurança</span></div></div>
+    <div class="service-card reveal" style="transition-delay:.32s"><div class="service-icon"><i class="fa-solid fa-globe"></i></div><h3>Sites e Sistemas Web</h3><p>Sites institucionais, portais e sistemas modernos, responsivos e focados em performance.</p><div class="service-tags"><span class="stag">UI/UX</span><span class="stag">SEO</span><span class="stag">CMS</span></div></div>
+    <div class="service-card reveal" style="transition-delay:.4s"><div class="service-icon"><i class="fa-solid fa-robot"></i></div><h3>Automação de Processos</h3><p>Eliminamos tarefas repetitivas com automação inteligente. Sua equipe foca no que importa.</p><div class="service-tags"><span class="stag">RPA</span><span class="stag">Workflow</span><span class="stag">Integração</span></div></div>
+  </div>
+</section>
+
+<!-- ── BENEFÍCIOS ── -->
+<section id="benefits">
+  <div class="benefits-wrap">
+    <div>
+      <div class="section-tag">Por que nos escolher</div>
+      <h2 class="section-title">Resultados que <span>você sente</span> no dia a dia</h2>
+      <div class="benefits-list">
+        <div class="benefit-item reveal"><div class="benefit-icon"><i class="fa-solid fa-bolt"></i></div><div class="benefit-text"><h4>Agilidade sem abrir mão da qualidade</h4><p>Projetos entregues no prazo, com rastreabilidade e comunicação transparente.</p></div></div>
+        <div class="benefit-item reveal" style="transition-delay:.1s"><div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div><div class="benefit-text"><h4>Segurança em primeiro lugar</h4><p>Boas práticas de segurança da informação e governança de TI em cada solução.</p></div></div>
+        <div class="benefit-item reveal" style="transition-delay:.2s"><div class="benefit-icon"><i class="fa-solid fa-chart-line"></i></div><div class="benefit-text"><h4>Escalabilidade para o futuro</h4><p>Arquiteturas pensadas para crescer com o negócio, sem refatorar do zero amanhã.</p></div></div>
+        <div class="benefit-item reveal" style="transition-delay:.3s"><div class="benefit-icon"><i class="fa-solid fa-handshake"></i></div><div class="benefit-text"><h4>Parceria de verdade</h4><p>Parceiros estratégicos comprometidos com a evolução tecnológica da sua empresa.</p></div></div>
+      </div>
+    </div>
+    <div class="benefits-quote reveal">
+      <p class="big-quote">"A tecnologia certa, no momento certo, <em>muda o jogo</em> para quem quer crescer."</p>
+      <p style="color:rgba(255,255,255,.8);font-size:.9rem;line-height:1.75;margin-bottom:1rem;">Na Alltech, alinhamos tecnologia ao seu negócio — não ao contrário. Entendemos seus processos, mapeamos suas dores e desenvolvemos soluções que geram impacto real na operação.</p>
+      <p style="color:rgba(255,255,255,.65);font-size:.86rem;line-height:1.65;margin-bottom:1.4rem;">Seja uma migração crítica, um sistema desenvolvido do zero ou suporte contínuo de infraestrutura: entregamos com organização, método e comprometimento total.</p>
+
+      <!-- Mini stats -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.4rem;">
+        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:.9rem 1rem;">
+          <div style="font-family:'Elms Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">+50</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;">Projetos entregues</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:.9rem 1rem;">
+          <div style="font-family:'Elms Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">100%</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;">No prazo</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:.9rem 1rem;">
+          <div style="font-family:'Elms Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">24/7</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;">Suporte contínuo</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:.9rem 1rem;">
+          <div style="font-family:'Elms Sans',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;line-height:1;">NE</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;">Todo o Nordeste</div>
+        </div>
+      </div>
+
+      <!-- Pilares -->
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.4rem;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:rgba(255,255,255,.8);">
+          <i class="fa-solid fa-circle-check" style="color:rgba(255,255,255,.5);font-size:.8rem;flex-shrink:0;"></i> Diagnóstico detalhado antes de qualquer proposta
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:rgba(255,255,255,.8);">
+          <i class="fa-solid fa-circle-check" style="color:rgba(255,255,255,.5);font-size:.8rem;flex-shrink:0;"></i> Escopo claro e sem surpresas no orçamento
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:rgba(255,255,255,.8);">
+          <i class="fa-solid fa-circle-check" style="color:rgba(255,255,255,.5);font-size:.8rem;flex-shrink:0;"></i> Equipe dedicada do início ao fim do projeto
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:rgba(255,255,255,.8);">
+          <i class="fa-solid fa-circle-check" style="color:rgba(255,255,255,.5);font-size:.8rem;flex-shrink:0;"></i> Acompanhamento pós-entrega e suporte ativo
+        </div>
+      </div>
+
+      <div style="padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.18);display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
+        <a href="mailto:atendimento@alltc-br.com" style="color:rgba(255,255,255,.8);text-decoration:none;font-size:.86rem;font-weight:500;display:flex;align-items:center;gap:8px;">
+          <i class="fa-solid fa-envelope"></i>atendimento@alltc-br.com
+        </a>
+        <a href="https://wa.me/5579991437087" target="_blank" style="color:rgba(255,255,255,.8);text-decoration:none;font-size:.86rem;font-weight:500;display:flex;align-items:center;gap:8px;">
+          <i class="fa-brands fa-whatsapp"></i>(79) 99143-7087
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMO FUNCIONA ── -->
+<section id="how">
+  <div class="section-center">
+    <div class="section-tag">Nosso processo</div>
+    <h2 class="section-title">Como <span>trabalhamos</span></h2>
+    <p class="section-sub">Do primeiro contato à entrega e além — você sabe o que esperar em cada etapa.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <div class="step-text"><h4>Diagnóstico</h4><p>Entendemos profundamente o seu negócio, mapeamos problemas e identificamos oportunidades.</p></div>
+    </div>
+    <div class="step reveal" style="transition-delay:.1s">
+      <div class="step-num">02</div>
+      <div class="step-text"><h4>Proposta Personalizada</h4><p>Solução sob medida com escopo, cronograma e investimento detalhados. Sem surpresas.</p></div>
+    </div>
+    <div class="step reveal" style="transition-delay:.2s">
+      <div class="step-num">03</div>
+      <div class="step-text"><h4>Desenvolvimento</h4><p>Metodologia ágil com entregas incrementais. Você acompanha tudo em tempo real.</p></div>
+    </div>
+    <div class="step reveal" style="transition-delay:.3s">
+      <div class="step-num">04</div>
+      <div class="step-text"><h4>Entrega & Suporte</h4><p>Implantação assistida, treinamento e suporte contínuo para garantir a evolução da solução.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIFERENCIAIS ── -->
+<section id="diferenciais">
+  <div class="section-center">
+    <div class="section-tag">Nossos diferenciais</div>
+    <h2 class="section-title">O que nos torna <span>diferentes</span></h2>
+    <p class="section-sub">Cada diferencial é vivido na prática, não apenas prometido.</p>
+  </div>
+  <div class="diff-grid">
+    <div class="diff-item reveal"><div class="diff-dot"></div><p><strong>Atendimento ágil e humanizado</strong> — solução rápida, sem burocracia, com foco no cliente.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.05s"><div class="diff-dot"></div><p><strong>Equipe multidisciplinar</strong> — especialistas em infra, dev, suporte e transformação digital.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.1s"><div class="diff-dot"></div><p><strong>Soluções 100% personalizadas</strong> — cada projeto respeita a realidade e os objetivos do cliente.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.15s"><div class="diff-dot"></div><p><strong>Compromisso com prazos</strong> — entregas organizadas, rastreáveis e dentro do combinado.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.2s"><div class="diff-dot"></div><p><strong>Segurança como padrão</strong> — governança de TI e boas práticas em cada solução.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.25s"><div class="diff-dot"></div><p><strong>Cloud, backup e automação</strong> — infraestrutura moderna para ambientes críticos.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.3s"><div class="diff-dot"></div><p><strong>Experiência em ambientes críticos</strong> — empresas, governo e instituições de alta complexidade.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.35s"><div class="diff-dot"></div><p><strong>Parceria de longo prazo</strong> — construímos relações estratégicas duradouras.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.4s"><div class="diff-dot"></div><p><strong>Inovação contínua</strong> — atualização permanente para oferecer o que há de mais moderno.</p></div>
+    <div class="diff-item reveal" style="transition-delay:.45s"><div class="diff-dot"></div><p><strong>Transparência total</strong> — comunicação honesta e confiabilidade em cada etapa.</p></div>
+  </div>
+</section>
+
+<!-- ── CASES ── -->
+<section id="cases">
+  <div class="section-center">
+    <div class="section-tag">Prova social</div>
+    <h2 class="section-title">Cases de <span>sucesso</span></h2>
+    <p class="section-sub">Resultados reais para empresas reais — em diferentes segmentos do Nordeste.</p>
+  </div>
+  <div class="cases-grid">
+    <div class="case-card reveal"><div class="case-client"><i class="fa-solid fa-building" style="color:var(--blue);margin-right:8px;"></i>ABC Distribuidora / SSA</div><p>Condução completa da transição tecnológica em processo de cisão empresarial. Migração fluida, segura e sem impactos operacionais — garantindo continuidade total dos serviços.</p><span class="case-tag">Transformação Digital</span></div>
+    <div class="case-card reveal" style="transition-delay:.08s"><div class="case-client"><i class="fa-solid fa-hard-hat" style="color:var(--blue);margin-right:8px;"></i>MIT Engenharia</div><p>Soluções de software personalizadas para necessidades específicas da operação. Resultado: eficiência operacional, modernização de processos e apoio tecnológico contínuo.</p><span class="case-tag">Software Sob Medida</span></div>
+    <div class="case-card reveal" style="transition-delay:.16s"><div class="case-client"><i class="fa-solid fa-building-user" style="color:var(--blue);margin-right:8px;"></i>Núcleo Condomínio</div><p>Suporte técnico especializado e consultoria focada na estabilidade do ambiente. Mitigação de falhas e maior confiabilidade da infraestrutura tecnológica.</p><span class="case-tag">Suporte & Consultoria</span></div>
+    <div class="case-card reveal" style="transition-delay:.24s"><div class="case-client"><i class="fa-solid fa-microscope" style="color:var(--blue);margin-right:8px;"></i>Fiocruz</div><p>Desenvolvimento de aplicações para automação operacional em ambiente de alta complexidade. Aumento de produtividade e modernização de processos internos críticos.</p><span class="case-tag">Automação Operacional</span></div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="cta-content reveal">
+    <div class="section-tag" style="justify-content:center;color:rgba(255,255,255,.6);">
+      <span style="display:block;width:18px;height:2px;background:rgba(255,255,255,.4);"></span>Pronto para evoluir?
+    </div>
+    <h2 class="cta-title">Vamos transformar a <span>tecnologia da sua empresa</span> hoje?</h2>
+    <p class="cta-sub">Entre em contato agora. Nosso time apresenta a melhor solução — sem compromisso.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/5579991437087" target="_blank" class="btn-white"><i class="fa-brands fa-whatsapp" style="color:#25D366;"></i> Falar pelo WhatsApp</a>
+      <a href="mailto:atendimento@alltc-br.com" class="btn-outline-white"><i class="fa-solid fa-envelope"></i> Enviar e-mail</a>
+    </div>
+    <div class="cta-contacts">
+      <a href="tel:+557931422500" class="cta-contact-item"><i class="fa-solid fa-phone"></i>(79) 3142-2500</a>
+      <a href="tel:+5579991437087" class="cta-contact-item"><i class="fa-solid fa-mobile-screen-button"></i>(79) 99143-7087</a>
+      <a href="tel:+5579991130609" class="cta-contact-item"><i class="fa-solid fa-mobile-screen-button"></i>(79) 99113-0609</a>
+      <a href="https://instagram.com/alltech.sistemas" target="_blank" class="cta-contact-item"><i class="fa-brands fa-instagram"></i>@alltech.sistemas</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="section-center">
+    <div class="section-tag">Dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas <span>frequentes</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item"><button class="faq-question">A Alltech atende empresas de que tamanho? <i class="fa-solid fa-plus"></i></button><div class="faq-answer"><div class="faq-answer-inner">Nosso foco são médias empresas, mas atendemos desde pequenas operações até grandes corporações e órgãos governamentais. Cada projeto é avaliado individualmente.</div></div></div>
+    <div class="faq-item"><button class="faq-question">Vocês atendem fora de Sergipe? <i class="fa-solid fa-plus"></i></button><div class="faq-answer"><div class="faq-answer-inner">Sim! Atuamos em todo o Nordeste do Brasil, presencialmente e de forma remota, com a mesma qualidade e proximidade em qualquer estado da região.</div></div></div>
+    <div class="faq-item"><button class="faq-question">Como funciona o desenvolvimento sob medida? <i class="fa-solid fa-plus"></i></button><div class="faq-answer"><div class="faq-answer-inner">Começamos com diagnóstico detalhado do seu negócio, depois elaboramos proposta com escopo e cronograma. O desenvolvimento acontece em ciclos ágeis com entregas parciais e validações frequentes.</div></div></div>
+    <div class="faq-item"><button class="faq-question">A Alltech oferece suporte pós-entrega? <i class="fa-solid fa-plus"></i></button><div class="faq-answer"><div class="faq-answer-inner">Sim. O suporte contínuo faz parte do nosso DNA. Oferecemos planos de manutenção, monitoramento e suporte técnico especializado para garantir estabilidade e evolução das soluções.</div></div></div>
+    <div class="faq-item"><button class="faq-question">Como solicitar um orçamento? <i class="fa-solid fa-plus"></i></button><div class="faq-answer"><div class="faq-answer-inner">Pelo WhatsApp (79) 99143-7087, pelo telefone (79) 3142-2500 ou pelo e-mail atendimento@alltc-br.com. Nossa equipe responde rapidamente e agenda conversa sem compromisso.</div></div></div>
+    <div class="faq-item"><button class="faq-question">Trabalham com cloud e segurança da informação? <i class="fa-solid fa-plus"></i></button><div class="faq-answer"><div class="faq-answer-inner">Absolutamente. Implantamos soluções modernas em cloud, backup automatizado e aplicamos boas práticas de segurança da informação e governança de TI em todos os projetos.</div></div></div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid-inner">
+    <div class="footer-brand">
+      <img src="logo_horizontal.png" alt="Alltech Sistemas"/>
+      <p>Tecnologia estratégica para empresas que querem crescer com eficiência,</br> segurança e inovação no Nordeste do Brasil.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Serviços</h5>
+      <ul>
+        <li><a href="#services">Software Sob Medida</a></li>
+        <li><a href="#services">Suporte & TI Gerenciado</a></li>
+        <li><a href="#services">Integrações e APIs</a></li>
+        <li><a href="#services">Consultoria em TI</a></li>
+        <li><a href="#services">Sites e Sistemas Web</a></li>
+        <li><a href="#services">Automação de Processos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contato</h5>
+      <ul>
+        <li><i class="fa-solid fa-phone"></i>(79) 3142-2500</li>
+        <li><i class="fa-brands fa-whatsapp"></i>(79) 99143-7087</li>
+        <li><i class="fa-brands fa-whatsapp"></i>(79) 99113-0609</li>
+        <li><i class="fa-solid fa-envelope"></i>atendimento@alltc-br.com</li>
+        <li><i class="fa-brands fa-instagram"></i>@alltech.sistemas</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Alltech Sistemas. Todos os direitos reservados.</p>
+    <div class="social-links">
+      <a href="https://instagram.com/alltech.sistemas" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/5579991437087" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="mailto:atendimento@alltc-br.com" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/5579991437087" target="_blank" class="whatsapp-float" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+<script>
+// Navbar scroll
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.scrollY>30);},{passive:true});
+
+// Mobile drawer
+const toggle=document.getElementById('nav-toggle');
+const drawer=document.getElementById('nav-drawer');
+const overlay=document.getElementById('nav-overlay');
+
+function openDrawer(){
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  toggle.classList.add('open');
+  toggle.setAttribute('aria-expanded','true');
+  drawer.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  toggle.classList.remove('open');
+  toggle.setAttribute('aria-expanded','false');
+  drawer.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+toggle.addEventListener('click',()=>{
+  drawer.classList.contains('open')?closeDrawer():openDrawer();
+});
+overlay.addEventListener('click',closeDrawer);
+drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeDrawer));
+
+// Close on Escape
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeDrawer();});
+
+// Desktop floating cards show
+function applyDesktopLayout(){
+  const vd=document.querySelector('.hero-visual-desktop');
+  const heroInner=document.querySelector('#hero');
+  if(window.innerWidth>=960){
+    if(vd)vd.style.display='flex';
+    heroInner.style.alignItems='center';
+  }else{
+    if(vd)vd.style.display='none';
+  }
+}
+applyDesktopLayout();
+window.addEventListener('resize',applyDesktopLayout,{passive:true});
+
+// Desktop hero inner flex
+function heroFlex(){
+  const hi=document.querySelector('#hero');
+  const content=document.querySelector('.hero-content');
+  const vd=document.querySelector('.hero-visual-desktop');
+  if(!hi||!content||!vd)return;
+  if(window.innerWidth>=960){
+    hi.style.display='flex';
+    hi.style.alignItems='center';
+    hi.style.justifyContent='space-between';
+    hi.style.gap='3rem';
+    content.style.maxWidth='600px';
+  }else{
+    hi.style.display='flex';
+    hi.style.alignItems='flex-start';
+    hi.style.flexDirection='column';
+    content.style.maxWidth='100%';
+  }
+}
+heroFlex();
+window.addEventListener('resize',heroFlex,{passive:true});
+
+// Reveal on scroll
+const reveals=document.querySelectorAll('.reveal,.reveal-up');
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}
+  });
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>observer.observe(el));
+
+// FAQ
+document.querySelectorAll('.faq-question').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    document.querySelectorAll('.faq-question').forEach(b=>b.classList.remove('open'));
+    if(!isOpen){item.classList.add('open');btn.classList.add('open');}
+  });
+});
+</script>
+</body>
+</html>
